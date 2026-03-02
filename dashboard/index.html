@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regime Shift Detection Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #0f0f1a;
+            --bg-card: #1a1a2e;
+            --accent: #6c63ff;
+            --accent-glow: rgba(108, 99, 255, 0.3);
+            --text-primary: #e0e0e0;
+            --text-secondary: #888;
+            --success: #00e676;
+            --warning: #ffab40;
+            --danger: #ff5252;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(108, 99, 255, 0.2);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        header h1 { font-size: 1.4rem; font-weight: 600; }
+        header h1 span { color: var(--accent); }
+        .status-badge {
+            padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem;
+            background: rgba(0, 230, 118, 0.15); color: var(--success);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem; padding: 2rem;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px; padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+        .card h3 { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
+        .card .value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .card .sub { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        #log-panel {
+            margin: 0 2rem 2rem; background: var(--bg-card);
+            border-radius: 12px; padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.06);
+            max-height: 300px; overflow-y: auto;
+        }
+        #log-panel h3 { margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; }
+        .log-entry {
+            padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-family: 'Cascadia Code', monospace; font-size: 0.82rem;
+        }
+        .log-entry .time { color: var(--text-secondary); margin-right: 0.5rem; }
+        .log-entry.drift { color: var(--warning); }
+        footer {
+            text-align: center; padding: 1.5rem;
+            color: var(--text-secondary); font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>⚡ <span>Regime</span> Shift Dashboard</h1>
+        <div class="status-badge" id="status">● System Ready</div>
+    </header>
+
+    <div class="grid">
+        <div class="card">
+            <h3>DATA SOURCES</h3>
+            <div class="value" id="sources">0</div>
+            <div class="sub">Active adapters</div>
+        </div>
+        <div class="card">
+            <h3>DATA POINTS</h3>
+            <div class="value" id="points">0</div>
+            <div class="sub">In current window</div>
+        </div>
+        <div class="card">
+            <h3>REGIME SHIFTS</h3>
+            <div class="value" id="shifts">0</div>
+            <div class="sub">Detected so far</div>
+        </div>
+        <div class="card">
+            <h3>UPTIME</h3>
+            <div class="value" id="uptime">0s</div>
+            <div class="sub">Since last restart</div>
+        </div>
+    </div>
+
+    <div id="log-panel">
+        <h3>📋 DETECTION LOG</h3>
+        <div class="log-entry">
+            <span class="time">--:--:--</span>
+            Dashboard loaded. Waiting for API connection…
+        </div>
+    </div>
+
+    <footer>Regime Shift Detection Platform &copy; 2026</footer>
+
+    <script>
+        // Uptime counter
+        const start = Date.now();
+        setInterval(() => {
+            const s = Math.floor((Date.now() - start) / 1000);
+            document.getElementById('uptime').textContent =
+                s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + (s % 60) + 's';
+        }, 1000);
+
+        // Placeholder: poll API for live data
+        async function fetchStatus() {
+            try {
+                const res = await fetch('http://localhost:8000/health');
+                if (res.ok) {
+                    document.getElementById('status').textContent = '● API Connected';
+                    document.getElementById('status').style.color = '#00e676';
+                }
+            } catch {
+                document.getElementById('status').textContent = '● API Offline';
+                document.getElementById('status').style.color = '#ff5252';
+            }
+        }
+        setInterval(fetchStatus, 5000);
+        fetchStatus();
+    </script>
+</body>
+</html>

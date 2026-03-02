@@ -1,0 +1,14 @@
+boto3
+redis
+river
+ruptures
+websocket-client
+python-dotenv
+fastapi
+uvicorn
+pandas
+numpy
+mangum
+yfinance
+stripe
+requests
