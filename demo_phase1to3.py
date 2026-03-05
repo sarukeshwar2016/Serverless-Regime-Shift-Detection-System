@@ -25,7 +25,7 @@ def run_demo():
     print("\nTest 2: Offline Financial Datasets (Phase 9 Integration)")
     from demo.simulator.data_injector import DataInjector
     # Test the fraud wave
-    csv_path = os.path.join(os.path.dirname(__file__), 'demo', 'datasets', 'stripe_fraud_wave.csv')
+    csv_path = os.path.join(os.path.dirname(__file__), 'demo', 'datasets', 'payments_fraud_wave.csv')
     injector = DataInjector(csv_path=csv_path, speed_multiplier=20)
     injector.run()
     time.sleep(1)

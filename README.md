@@ -9,7 +9,7 @@ A **Generic Financial Behavior Monitoring Platform** that ingests live financial
 Financial markets don't behave the same way all the time. Sometimes prices are calm, sometimes they crash, sometimes they spike. A **regime shift** is when the market's behavior fundamentally changes — like going from "steady growth" to "sudden crash."
 
 This platform:
-1. **Listens** to live data streams (Binance crypto trades, Stripe payments, stock prices)
+1. **Listens** to live data streams (Binance crypto trades, synthetic payment streams)
 2. **Detects** when the behavior changes using two methods:
    - **Offline detection** (ruptures library) — analyzes a batch of data after it's collected
    - **Online detection** (river library) — spots changes point-by-point as data arrives
@@ -31,7 +31,7 @@ regime-platform/
 │   ├── adapters/
 │   │   ├── base_adapter.py     #   Abstract base class for all adapters
 │   │   ├── binance_adapter.py  #   Binance WebSocket crypto trade stream
-│   │   └── stripe_adapter.py   #   Stripe payment event adapter
+
 │   ├── window_builder.py       #   Collects data into time-based windows
 │   └── stream_manager.py       #   Manages multiple adapters in parallel
 │
@@ -108,7 +108,7 @@ Edit the `.env` file with your real credentials:
 | `REDIS_HOST` | Redis server host |
 | `REDIS_PORT` | Redis server port |
 | `BINANCE_STREAM_URL` | Binance WebSocket stream URL |
-| `STRIPE_WEBHOOK_SECRET` | Stripe API key |
+
 | `DEMO_MODE` | Set to `true` to use synthetic data |
 
 ---
@@ -124,5 +124,4 @@ Edit the `.env` file with your real credentials:
 | **redis** | Real-time state caching |
 | **websocket-client** | Binance WebSocket connection |
 | **yfinance** | Historical stock data |
-| **stripe** | Payment event processing |
 | **mangum** | Run FastAPI on AWS Lambda |

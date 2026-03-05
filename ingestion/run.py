@@ -6,7 +6,6 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from ingestion.adapters.binance_adapter import BinanceAdapter
-from ingestion.adapters.stripe_adapter import StripeAdapter
 from ingestion.window_builder import WindowBuilder
 from ingestion.stream_manager import StreamManager
 
@@ -17,7 +16,6 @@ def main():
     manager = StreamManager(window_builder)
     
     manager.register(BinanceAdapter())
-    manager.register(StripeAdapter())
     
     manager.start()
     

@@ -41,7 +41,7 @@ class WindowBuilder:
             if source == "binance":
                 values = [p.get("price", 0.0) for p in points]
                 asset_class = "crypto"
-            elif source == "stripe":
+            elif source == "payments":
                 values = [p.get("amount", 0.0) for p in points]
                 asset_class = "payments"
             else:

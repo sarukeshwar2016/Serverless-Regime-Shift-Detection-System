@@ -33,7 +33,7 @@ def test_spiked_prices():
     # Base flat prices
     for i in range(2):
         window = {
-            "source": "stripe",
+            "source": "payments",
             "asset": "charge",
             "asset_class": "payments",
             "values": [10.0] * 60,
@@ -45,7 +45,7 @@ def test_spiked_prices():
         
     # Sudden spike
     spiked_window = {
-        "source": "stripe",
+        "source": "payments",
         "asset": "charge",
         "asset_class": "payments",
         "values": [10.0]*30 + [500.0]*30,

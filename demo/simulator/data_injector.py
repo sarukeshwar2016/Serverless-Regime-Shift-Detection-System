@@ -30,7 +30,7 @@ class DataInjector:
             
             # Format to match WindowBuilder output
             window = {
-                "source": "stripe",
+                "source": "payments",
                 "asset": "charge",
                 "asset_class": "payments",
                 "values": chunk,

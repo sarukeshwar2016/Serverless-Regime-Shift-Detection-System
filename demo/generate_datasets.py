@@ -4,7 +4,7 @@ import os
 
 def generate_black_friday():
     """Generates a CSV of typical payment volumes with a massive Black Friday spike."""
-    path = os.path.join(os.path.dirname(__file__), 'datasets', 'stripe_black_friday.csv')
+    path = os.path.join(os.path.dirname(__file__), 'datasets', 'payments_black_friday.csv')
     os.makedirs(os.path.dirname(path), exist_ok=True)
     
     with open(path, 'w', newline='') as f:
@@ -27,7 +27,7 @@ def generate_black_friday():
 
 def generate_fraud_wave():
     """Generates a CSV of normal payments interrupted by a wave of identical small fraudulent charges."""
-    path = os.path.join(os.path.dirname(__file__), 'datasets', 'stripe_fraud_wave.csv')
+    path = os.path.join(os.path.dirname(__file__), 'datasets', 'payments_fraud_wave.csv')
     os.makedirs(os.path.dirname(path), exist_ok=True)
     
     with open(path, 'w', newline='') as f:

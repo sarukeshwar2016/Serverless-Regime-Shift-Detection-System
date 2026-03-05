@@ -12,11 +12,10 @@
 ### Tasks:
 1. **Base Adapter** (`ingestion/adapters/base_adapter.py`) — Abstract base class with `connect()`, `disconnect()`, `normalize_event()`, `get_source_name()`, `validate_event()`. Standard format: `{source, asset, asset_class, timestamp, value, volume, metadata}`
 2. **Binance Adapter** (`ingestion/adapters/binance_adapter.py`) — WebSocket to `wss://stream.binance.com:9443/ws/btcusdt@trade`, auto-reconnect, logging to `ingestion_binance.log`
-3. **Stripe Adapter** (`ingestion/adapters/stripe_adapter.py`) — Sandbox webhook events, `receive_webhook()`, logging to `ingestion_stripe.log`, setup instructions in comments
-4. **Window Builder** (`ingestion/window_builder.py`) — Groups events by source+asset, produces 60s windows with `{source, asset, asset_class, window_start, window_end, values, mean_value, value_change_pct, event_count, compression_tier}`
-5. **Stream Manager** (`ingestion/stream_manager.py`) — `add_adapter()`, `start_all()` (threaded), `stop_all()`, feeds WindowBuilder
-6. **Main Runner** (`ingestion/run.py`) — Creates adapters, starts StreamManager, prints status every 60s
-7. **Test** — Verify live prices normalize, windows print every 60s, logs written
+3. **Window Builder** (`ingestion/window_builder.py`) — Groups events by source+asset, produces 60s windows with `{source, asset, asset_class, window_start, window_end, values, mean_value, value_change_pct, event_count, compression_tier}`
+4. **Stream Manager** (`ingestion/stream_manager.py`) — `add_adapter()`, `start_all()` (threaded), `stop_all()`, feeds WindowBuilder
+5. **Main Runner** (`ingestion/run.py`) — Creates adapters, starts StreamManager, prints status every 60s
+6. **Test** — Verify live prices normalize, windows print every 60s, logs written
 
 ---
 
