@@ -22,10 +22,25 @@ class DataInjector:
         prices = df["price"].tolist() if "price" in df.columns else df.iloc[:, 0].tolist()
 
         print(f"[Injector] Replaying {len(prices)} data points from {self.csv_path}")
-        for i, price in enumerate(prices):
-            result = self.engine.detect_online(price)
-            if result:
-                print(f"  ⚡ Drift detected at index {i}, price={price:.2f}")
+        
+        # Simulate 60-event windows to match our architecture
+        window_size = 60
+        for i in range(0, len(prices), window_size):
+            chunk = prices[i:i+window_size]
+            
+            # Format to match WindowBuilder output
+            window = {
+                "source": "stripe",
+                "asset": "charge",
+                "asset_class": "payments",
+                "values": chunk,
+                "mean_value": sum(chunk) / len(chunk) if chunk else 0.0
+            }
+            
+            # Feed window into the ensemble classifier
+            result = self.engine.classify_regime(window)
+            print(f"  Window {i//window_size + 1} | Mean: ${window['mean_value']:.2f} | Regime: {result['regime']}")
+            
             time.sleep(1.0 / self.speed)
 
         print("[Injector] Replay complete.")
