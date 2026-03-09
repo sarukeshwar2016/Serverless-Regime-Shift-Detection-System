@@ -1,0 +1,15 @@
+Event 1 Value,Event 2 Value,Event 3 Value,Event 4 Value,Event 5 Value,Detection Engine Results,timestamp
+10,10,10,500,500,Error: regime_model.pkl not found. Run track_mlflow.py first to generate it.,2026-03-09 22:39:48.199609
+10,10,10,10,100000,"'🟢 Predicted Regime: STABLE
+
+Details:
+{
+  ""source"": ""hf_forms"",
+  ""asset"": ""manual_entry"",
+  ""asset_class"": null,
+  ""confidence"": 1.0,
+  ""pelt_triggered"": false,
+  ""drift_triggered"": false,
+  ""mean_value"": 20008.0,
+  ""detected_at"": 1773076526.993689
+}",2026-03-09 22:45:28.061851

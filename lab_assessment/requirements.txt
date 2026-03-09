@@ -1,0 +1,7 @@
+gradio
+pandas
+mlflow
+joblib
+scikit-learn
+river
+ruptures
