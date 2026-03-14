@@ -20,9 +20,11 @@ def main():
     manager.start()
     
     from detection.engine import DetectionEngine, RegimeTracker
+    from state.redis_client import RedisClient
     
     engine = DetectionEngine()
     tracker = RegimeTracker()
+    redis_db = RedisClient()
     
     try:
         while True:
@@ -36,8 +38,14 @@ def main():
                 # 1. Detect Regime (Phase 3)
                 result = engine.classify_regime(w)
                 confirmed_regime = tracker.track(result)
+                
+                # Update the result with the confirmed regime
+                result["regime"] = confirmed_regime
                     
                 print(f"[{w['source']}:{w['asset']}] -> Confirmed Regime: {confirmed_regime} | Events: {w['event_count']}")
+                
+                # 2. Save State to Redis (Phase 4)
+                redis_db.save_regime_state(w['source'], w['asset'], result)
                 
     except KeyboardInterrupt:
         print("\nStopping ingestion pipeline...")
