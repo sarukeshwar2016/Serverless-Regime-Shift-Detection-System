@@ -21,10 +21,12 @@ def main():
     
     from detection.engine import DetectionEngine, RegimeTracker
     from state.redis_client import RedisClient
+    from storage.mongo_client import MongoStorageClient
     
     engine = DetectionEngine()
     tracker = RegimeTracker()
     redis_db = RedisClient()
+    mongo_db = MongoStorageClient()
     
     try:
         while True:
@@ -46,6 +48,11 @@ def main():
                 
                 # 2. Save State to Redis (Phase 4)
                 redis_db.save_regime_state(w['source'], w['asset'], result)
+                
+                # 3. Save Anomalies to MongoDB (Phase 5)
+                if confirmed_regime in ["STRESSED", "TRANSITIONING"]:
+                    print(f"☁️ Logging anomaly to MongoDB Atlas...")
+                    mongo_db.log_anomaly(w['source'], w['asset'], result)
                 
     except KeyboardInterrupt:
         print("\nStopping ingestion pipeline...")
