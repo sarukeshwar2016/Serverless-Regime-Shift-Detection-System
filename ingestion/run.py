@@ -37,6 +37,13 @@ def main():
             print("\n--- [Main Runner] 60s Window Elapsed ---")
             
             for w in windows:
+                # Simulated Lambda Start: Load ADWIN state from Redis
+                adwin_state = redis_db.load_adwin_state(w['source'], w['asset'])
+                if adwin_state is not None:
+                    engine.set_adwin(adwin_state)
+                else:
+                    engine.reset_online()
+                    
                 # 1. Detect Regime (Phase 3)
                 result = engine.classify_regime(w)
                 confirmed_regime = tracker.track(result)
@@ -46,13 +53,24 @@ def main():
                     
                 print(f"[{w['source']}:{w['asset']}] -> Confirmed Regime: {confirmed_regime} | Events: {w['event_count']}")
                 
-                # 2. Save State to Redis (Phase 4)
+                # Simulated Lambda End
+                # 2. Redis Short-Term (Hot Layer + ADWIN Serialization)
                 redis_db.save_regime_state(w['source'], w['asset'], result)
+                redis_db.save_adwin_state(w['source'], w['asset'], engine.get_adwin())
                 
-                # 3. Save Anomalies to MongoDB (Phase 5)
+                # 3. MongoDB Persistent Storage (Cold Layer) - 3 Table Architecture
+                timestamp_ms = int(time.time() * 1000)
+                
+                # Table 1: RegimeEvents (Primary audit trail)
                 if confirmed_regime in ["STRESSED", "TRANSITIONING"]:
-                    print(f"☁️ Logging anomaly to MongoDB Atlas...")
-                    mongo_db.log_anomaly(w['source'], w['asset'], result)
+                    print(f"☁️ Logging anomaly event to MongoDB...")
+                    mongo_db.log_regime_event(w['source'], w['asset'], result, timestamp_ms)
+                
+                # Table 2: WindowData (Regime-Aware Compression)
+                mongo_db.write_window_data(w['source'], w['asset'], w, confirmed_regime)
+                
+                # Table 3: CurrentRegime (Overwrites latest status)
+                mongo_db.update_current_regime(w['source'], w['asset'], confirmed_regime, result.get("confidence", 1.0), timestamp_ms)
                 
     except KeyboardInterrupt:
         print("\nStopping ingestion pipeline...")

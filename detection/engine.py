@@ -54,6 +54,14 @@ class DetectionEngine:
     def reset_online(self) -> None:
         """Reset the online detector state."""
         self.online_detector = drift.ADWIN()
+        
+    def get_adwin(self) -> Any:
+        """Returns the current ADWIN state for serialization."""
+        return self.online_detector
+        
+    def set_adwin(self, adwin_obj: Any) -> None:
+        """Sets the ADWIN state from a deserialized object."""
+        self.online_detector = adwin_obj
 
     def classify_regime(self, window: Dict[str, Any]) -> Dict[str, Any]:
         """

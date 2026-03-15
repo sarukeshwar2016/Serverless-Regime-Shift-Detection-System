@@ -67,7 +67,7 @@ def get_historical_anomalies(limit: int = 50):
         
     try:
         # Fetch latest anomalies, ignoring the _id field because it is not JSON serializable by default
-        docs = list(mongo_db.collection.find({}, {"_id": 0}).sort("timestamp", -1).limit(limit))
+        docs = list(mongo_db.regime_events.find({}, {"_id": 0}).sort("timestamp", -1).limit(limit))
         return {"status": "success", "count": len(docs), "data": docs}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

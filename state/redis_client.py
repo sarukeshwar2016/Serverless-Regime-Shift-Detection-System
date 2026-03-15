@@ -43,6 +43,39 @@ class RedisClient:
             print(f"Redis save error: {e}")
             return False
 
+    def save_adwin_state(self, source: str, asset: str, adwin_obj: Any) -> bool:
+        """Serializes and saves the ADWIN state to Redis using Pickle & Base64."""
+        if not self.client:
+            return False
+        try:
+            import pickle
+            import base64
+            key = f"adwin:{source}:{asset}"
+            pickled_data = pickle.dumps(adwin_obj)
+            encoded_data = base64.b64encode(pickled_data).decode('utf-8')
+            self.client.set(key, encoded_data)
+            return True
+        except Exception as e:
+            print(f"Redis save adwin error: {e}")
+            return False
+
+    def load_adwin_state(self, source: str, asset: str) -> Optional[Any]:
+        """Loads and deserializes the ADWIN state from Redis."""
+        if not self.client:
+            return None
+        try:
+            import pickle
+            import base64
+            key = f"adwin:{source}:{asset}"
+            data = self.client.get(key)
+            if data:
+                decoded_data = base64.b64decode(data)
+                return pickle.loads(decoded_data)
+            return None
+        except Exception as e:
+            print(f"Redis load adwin error: {e}")
+            return None
+
     def get_regime_state(self, source: str, asset: str) -> Optional[Dict[str, Any]]:
         """Retrieves the latest regime state for a specific asset."""
         if not self.client:

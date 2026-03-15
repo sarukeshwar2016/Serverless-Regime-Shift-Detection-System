@@ -71,7 +71,7 @@ export default function Dashboard() {
         setHistory(data.data || []);
       }
     } catch (e) {
-      console.error("Failed to fetch history:", e);
+      // Silently fail to avoid Next.js dev overlay hijacking the screen if API restarts
     }
   };
 
