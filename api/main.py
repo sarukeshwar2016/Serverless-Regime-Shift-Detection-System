@@ -2,7 +2,6 @@
 FastAPI REST API — exposes regime-shift detection capabilities
 and recent results over HTTP for the React Dashboard.
 """
-
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import sys
