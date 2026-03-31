@@ -189,8 +189,8 @@ export default function Dashboard() {
             <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-100">
               <Activity className="w-5 h-5 text-indigo-400" /> Real-Time Analytics
             </h2>
-            <div className="h-72 w-full">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-72 w-full min-h-[288px]">
+              <ResponsiveContainer width="100%" height="100%" minHeight={288} minWidth={100}>
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
                   <XAxis dataKey="time" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
@@ -244,7 +244,7 @@ export default function Dashboard() {
                       </tr>
                     ) : (
                       history.map((log, idx) => {
-                        const date = new Date(log.timestamp * 1000).toLocaleString();
+                        const date = new Date(log.timestamp).toLocaleString();
                         const reg = log.regime_data?.regime || "UNKNOWN";
                         return (
                           <tr key={idx} className="hover:bg-white/[0.02] transition-colors group">
