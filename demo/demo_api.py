@@ -1,6 +1,6 @@
 """
 Demo API — a lightweight FastAPI server that generates synthetic data
-and runs detection on-the-fly for quick demonstrations.
+and ALSO runs detection on-the-fly for quick demonstrations.
 """
 
 from fastapi import FastAPI
