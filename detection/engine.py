@@ -13,7 +13,7 @@ from river import drift
 class DetectionEngine:
     """Detects regime shifts in financial time-series data."""
 
-    def __init__(self, penalty: float = 3.0):
+    def __init__(self, penalty: float = 30.0):
         self.penalty = penalty
         # Online drift detector (ADWIN from river)
         self.online_detector = drift.ADWIN()
@@ -72,16 +72,19 @@ class DetectionEngine:
         drift_triggered = False
         
         if len(values) >= 5:
+            # Transform raw prices into differences (returns) to filter random walk noise
+            returns = [values[i] - values[i-1] for i in range(1, len(values))]
+            
             try:
-                offline_res = self.detect_offline(values)
+                offline_res = self.detect_offline(returns)
                 pelt_triggered = offline_res.get("n_changepoints", 0) > 0
             except Exception:
                 pass
             
-        for v in values:
-            if self.detect_online(v):
-                drift_triggered = True
-                break
+            for r in returns:
+                if self.detect_online(r):
+                    drift_triggered = True
+                    break
                 
         if drift_triggered:
             self.reset_online()

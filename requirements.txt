@@ -12,3 +12,4 @@ mangum
 yfinance
 stripe
 requests
+pymongo
