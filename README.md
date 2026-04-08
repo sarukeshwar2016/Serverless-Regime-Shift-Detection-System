@@ -1,3 +1,12 @@
+---
+title: Regime Dashboard UI
+emoji: 📊
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # 🔍 Regime Shift Detection Platform
 
 A **Generic Financial Behavior Monitoring Platform** that ingests live financial data from multiple sources (crypto, payments, stocks, forex), detects regime shifts in real time, stores results in AWS DynamoDB, and exposes findings via a REST API.
