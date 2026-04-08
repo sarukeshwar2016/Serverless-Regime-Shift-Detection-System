@@ -21,7 +21,7 @@ class BinanceAdapter(BaseAdapter):
         super().__init__(name="binance")
         self.url = os.getenv(
             "BINANCE_STREAM_URL",
-            "wss://stream.binance.com:9443/ws/btcusdt@trade",
+            "wss://stream.binance.com:9443/stream?streams=btcusdt@trade/ethusdt@trade/solusdt@trade/bnbusdt@trade/xrpusdt@trade/adausdt@trade",
         )
         self._ws = None
 
@@ -47,10 +47,11 @@ class BinanceAdapter(BaseAdapter):
         while True:
             raw = self._ws.recv()
             data = json.loads(raw)
+            payload = data.get("data", data)
             yield {
                 "source": self.name,
-                "symbol": data.get("s"),
-                "price": float(data.get("p", 0)),
-                "quantity": float(data.get("q", 0)),
-                "timestamp": data.get("T"),
+                "symbol": payload.get("s"),
+                "price": float(payload.get("p", 0)),
+                "quantity": float(payload.get("q", 0)),
+                "timestamp": payload.get("T"),
             }

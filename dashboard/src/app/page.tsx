@@ -40,7 +40,7 @@ export default function Dashboard() {
   // Fetch Live State (Redis Hot Layer)
   const fetchLiveState = async () => {
     try {
-      const res = await fetch("/api/state/all");
+      const res = await fetch("http://localhost:8000/api/state/all");
       if (res.ok) {
         setApiConnected(true);
         const data = await res.json();
@@ -65,7 +65,7 @@ export default function Dashboard() {
   // Fetch History (MongoDB Cold Layer)
   const fetchHistory = async () => {
     try {
-      const res = await fetch("/api/history?limit=10");
+      const res = await fetch("http://localhost:8000/api/history?limit=10");
       if (res.ok) {
         const data = await res.json();
         setHistory(data.data || []);
