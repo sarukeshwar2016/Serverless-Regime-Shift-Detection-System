@@ -6,3 +6,13 @@ __pycache__
 .git
 .turbocache
 .turbo
+mlflow.db
+dump.rdb
+*.db
+mlruns/
+.gradio/
+lab_assessment/
+demo/
+squash_history.ps1
+run_commits.ps1
+remove_deeplearning.ps1

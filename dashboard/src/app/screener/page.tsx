@@ -20,7 +20,7 @@ export default function MacroScreener() {
   useEffect(() => {
     const fetchLiveState = async () => {
       try {
-        const res = await fetch("http://localhost:8000/api/state/all");
+        const res = await fetch("/api/state/all");
         if (res.ok) {
           const data = await res.json();
           setLiveState(data.data || {});
