@@ -185,36 +185,37 @@ export default function Dashboard() {
         <div className="lg:col-span-2 space-y-6">
           
           {/* Chart Panel */}
-          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 shadow-xl backdrop-blur-md">
+          <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 shadow-xl backdrop-blur-md relative">
             <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-100">
               <Activity className="w-5 h-5 text-indigo-400" /> Real-Time Analytics
             </h2>
-            <div className="h-72 w-full min-h-[288px]">
-              <ResponsiveContainer width="100%" height="100%" minHeight={288} minWidth={100}>
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                  <XAxis dataKey="time" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                  <YAxis domain={['auto', 'auto']} stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`$${v}`} />
-                  <Tooltip 
-                    contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
-                    itemStyle={{ color: '#818cf8' }}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="value" 
-                    stroke="#818cf8" 
-                    strokeWidth={3} 
-                    dot={false}
-                    animationDuration={300}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
+            <div className="h-72 w-full" style={{ minHeight: 288 }}>
+              {chartData.length === 0 ? (
+                <div className="h-full w-full flex items-center justify-center text-slate-500 text-sm">
+                  Waiting for streaming data... (data arrives every 60s)
+                </div>
+              ) : (
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                    <XAxis dataKey="time" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
+                    <YAxis domain={['auto', 'auto']} stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`$${v.toFixed(2)}`} />
+                    <Tooltip 
+                      contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                      itemStyle={{ color: '#818cf8' }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="value" 
+                      stroke="#818cf8" 
+                      strokeWidth={3} 
+                      dot={false}
+                      animationDuration={300}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
             </div>
-            {chartData.length === 0 && (
-              <div className="absolute inset-0 flex items-center justify-center text-slate-500">
-                Waiting for streaming data...
-              </div>
-            )}
           </div>
 
           {/* History Panel */}
