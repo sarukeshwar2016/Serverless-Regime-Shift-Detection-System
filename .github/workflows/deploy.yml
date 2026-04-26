@@ -21,8 +21,9 @@ jobs:
             # 1. Navigate to the project directory
             cd Serverless-Regime-Shift-Detection-System
             
-            # 2. Pull the latest code from GitHub
-            git pull origin main
+            # 2. Force sync the latest code from GitHub (ignoring local permission changes)
+            git fetch origin main
+            git reset --hard origin/main
             
             # 3. Build the Docker image
             docker build -t regime-platform:latest .
