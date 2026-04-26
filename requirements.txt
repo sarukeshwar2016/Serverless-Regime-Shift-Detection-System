@@ -1,13 +1,13 @@
 boto3
 redis
-river
+river==0.21.2
 ruptures
 websocket-client
 python-dotenv
 fastapi
 uvicorn
 pandas
-numpy
+numpy<2.0.0
 mangum
 yfinance
 stripe
