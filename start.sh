@@ -12,7 +12,7 @@ echo "==> Waiting for API to be ready..."
 sleep 5
 
 echo "==> Starting Binance ingestion engine..."
-python ingestion/run.py &
+python3 ingestion/run.py &
 
 echo "==> Starting Next.js frontend on port 7860..."
 cd /app/dashboard
