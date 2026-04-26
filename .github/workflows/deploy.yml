@@ -1,0 +1,40 @@
+name: Deploy Regime Platform to EC2
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 1. Navigate to the project directory
+            cd regime-platform
+            
+            # 2. Pull the latest code from GitHub
+            git pull origin main
+            
+            # 3. Build the Docker image
+            docker build -t regime-platform:latest .
+            
+            # 4. Stop and remove the existing container (if any)
+            docker stop regime-platform || true
+            docker rm regime-platform || true
+            
+            # 5. Run the new container, passing the MongoDB URI and mapping Port 80 to 7860
+            docker run -d \
+              --name regime-platform \
+              -p 80:7860 \
+              -e MONGO_URI="${{ secrets.MONGO_URI }}" \
+              --restart always \
+              regime-platform:latest
