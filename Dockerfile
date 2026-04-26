@@ -17,7 +17,8 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 # ── Python dependencies ───────────────────────────────────────────────────────
 WORKDIR /app
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --upgrade pip setuptools wheel \
+    && pip3 install --no-cache-dir -r requirements.txt
 
 # ── Copy Python backend source ────────────────────────────────────────────────
 COPY api/ ./api/
