@@ -14,10 +14,10 @@ pipeline {
         stage('Deploy to EC2') {
             steps {
                 script {
-                    // Use SSH Agent plugin with the Jenkins credential ID 'ec2-ssh-key'
-                    sshagent(['ec2-ssh-key']) {
+                    // Use standard withCredentials instead of sshagent plugin
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ec2-ssh-key', keyFileVariable: 'SSH_KEY')]) {
                         sh """
-                        ssh -o StrictHostKeyChecking=no ${EC2_USERNAME}@${EC2_HOST} '
+                        ssh -i \${SSH_KEY} -o StrictHostKeyChecking=no ${EC2_USERNAME}@${EC2_HOST} '
                             # 1. Navigate to the project directory
                             cd Serverless-Regime-Shift-Detection-System
                             
