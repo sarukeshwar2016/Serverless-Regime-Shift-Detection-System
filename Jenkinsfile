@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // EC2 Credentials and Host details
-        EC2_HOST = '52.66.244.207'
+        EC2_HOST = '3.108.178.7'
         EC2_USERNAME = 'ec2-user'
         
         // Load MongoDB URI from Jenkins Credentials (Secret text type with ID 'MONGO_URI')
