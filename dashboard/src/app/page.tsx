@@ -81,7 +81,7 @@ export default function Dashboard() {
     const interval = setInterval(() => {
       fetchLiveState();
       // Fetch history less frequently
-      if (Math.random() > 0.5) fetchHistory(); 
+      if (Math.random() > 0.5) fetchHistory();
     }, 2000);
     return () => clearInterval(interval);
   }, []);
@@ -108,7 +108,7 @@ export default function Dashboard() {
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-3">
             <Activity className="w-8 h-8 text-indigo-400" />
-            Regime Shift Detection
+            Regime Shit Detection
           </h1>
           <p className="text-slate-400 mt-2 text-sm">Serverless Financial Monitoring Platform</p>
         </div>
@@ -125,7 +125,7 @@ export default function Dashboard() {
       </header>
 
       <main className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
+
         {/* Left Column: Live State Cards */}
         <div className="space-y-6">
           <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-100">
@@ -133,7 +133,7 @@ export default function Dashboard() {
           </h2>
           {activeAssets.length === 0 ? (
             <div className="bg-white/5 border border-white/10 rounded-2xl p-8 text-center text-slate-400">
-              No live streams detected.<br/>
+              No live streams detected.<br />
               Run <code className="text-indigo-300">python ingestion/run.py</code>
             </div>
           ) : (
@@ -155,7 +155,7 @@ export default function Dashboard() {
                       {state.regime}
                     </div>
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4 mt-6">
                     <div>
                       <p className="text-xs text-slate-500 font-medium tracking-wider">MEAN VALUE</p>
@@ -183,7 +183,7 @@ export default function Dashboard() {
 
         {/* Middle/Right Column: Charts & History */}
         <div className="lg:col-span-2 space-y-6">
-          
+
           {/* Chart Panel */}
           <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 shadow-xl backdrop-blur-md relative">
             <h2 className="text-xl font-semibold mb-6 flex items-center gap-2 text-slate-100">
@@ -199,16 +199,16 @@ export default function Dashboard() {
                   <LineChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
                     <XAxis dataKey="time" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
-                    <YAxis domain={['auto', 'auto']} stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v)=>`$${v.toFixed(2)}`} />
-                    <Tooltip 
+                    <YAxis domain={['auto', 'auto']} stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `$${v.toFixed(2)}`} />
+                    <Tooltip
                       contentStyle={{ backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
                       itemStyle={{ color: '#818cf8' }}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="value" 
-                      stroke="#818cf8" 
-                      strokeWidth={3} 
+                    <Line
+                      type="monotone"
+                      dataKey="value"
+                      stroke="#818cf8"
+                      strokeWidth={3}
                       dot={false}
                       animationDuration={300}
                     />
@@ -220,52 +220,52 @@ export default function Dashboard() {
 
           {/* History Panel */}
           <div className="bg-white/[0.02] border border-white/5 rounded-2xl shadow-xl backdrop-blur-md overflow-hidden">
-             <div className="p-6 border-b border-white/5 bg-white/[0.01]">
-                <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-100">
-                  <Clock className="w-5 h-5 text-indigo-400" /> Anomaly Ledger (Permanent Storage)
-                </h2>
-             </div>
-             
-             <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-white/10 text-xs tracking-wider text-slate-400 uppercase bg-white/[0.02]">
-                      <th className="px-6 py-4 font-medium">Timestamp</th>
-                      <th className="px-6 py-4 font-medium">Asset</th>
-                      <th className="px-6 py-4 font-medium">Event Regime</th>
-                      <th className="px-6 py-4 font-medium">Value</th>
+            <div className="p-6 border-b border-white/5 bg-white/[0.01]">
+              <h2 className="text-xl font-semibold flex items-center gap-2 text-slate-100">
+                <Clock className="w-5 h-5 text-indigo-400" /> Anomaly Ledger (Permanent Storage)
+              </h2>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-white/10 text-xs tracking-wider text-slate-400 uppercase bg-white/[0.02]">
+                    <th className="px-6 py-4 font-medium">Timestamp</th>
+                    <th className="px-6 py-4 font-medium">Asset</th>
+                    <th className="px-6 py-4 font-medium">Event Regime</th>
+                    <th className="px-6 py-4 font-medium">Value</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-white/5">
+                  {history.length === 0 ? (
+                    <tr>
+                      <td colSpan={4} className="px-6 py-8 text-center text-slate-500">
+                        No anomalies logged in MongoDB yet.
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-white/5">
-                    {history.length === 0 ? (
-                      <tr>
-                        <td colSpan={4} className="px-6 py-8 text-center text-slate-500">
-                          No anomalies logged in MongoDB yet.
-                        </td>
-                      </tr>
-                    ) : (
-                      history.map((log, idx) => {
-                        const date = new Date(log.timestamp).toLocaleString();
-                        const reg = log.regime_data?.regime || "UNKNOWN";
-                        return (
-                          <tr key={idx} className="hover:bg-white/[0.02] transition-colors group">
-                            <td className="px-6 py-4 text-sm text-slate-400 font-mono">{date}</td>
-                            <td className="px-6 py-4 text-sm text-slate-200 font-medium">{log.asset}</td>
-                            <td className="px-6 py-4">
-                              <span className={`px-2.5 py-1 rounded inline-flex text-xs font-semibold ${getRegimeColor(reg)}`}>
-                                {reg}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-sm font-mono text-slate-300">
-                              ${log.regime_data?.mean_value?.toFixed(2) || "---"}
-                            </td>
-                          </tr>
-                        );
-                      })
-                    )}
-                  </tbody>
-                </table>
-             </div>
+                  ) : (
+                    history.map((log, idx) => {
+                      const date = new Date(log.timestamp).toLocaleString();
+                      const reg = log.regime_data?.regime || "UNKNOWN";
+                      return (
+                        <tr key={idx} className="hover:bg-white/[0.02] transition-colors group">
+                          <td className="px-6 py-4 text-sm text-slate-400 font-mono">{date}</td>
+                          <td className="px-6 py-4 text-sm text-slate-200 font-medium">{log.asset}</td>
+                          <td className="px-6 py-4">
+                            <span className={`px-2.5 py-1 rounded inline-flex text-xs font-semibold ${getRegimeColor(reg)}`}>
+                              {reg}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 text-sm font-mono text-slate-300">
+                            ${log.regime_data?.mean_value?.toFixed(2) || "---"}
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
         </div>
