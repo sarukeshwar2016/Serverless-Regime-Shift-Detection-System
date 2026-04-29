@@ -108,7 +108,7 @@ export default function Dashboard() {
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-3">
             <Activity className="w-8 h-8 text-indigo-400" />
-            Regime Shit Detection
+            Regime Shift Detection
           </h1>
           <p className="text-slate-400 mt-2 text-sm">Serverless Financial Monitoring Platform</p>
         </div>
